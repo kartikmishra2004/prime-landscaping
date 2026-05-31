@@ -1,26 +1,187 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f6ef;
+  --foreground: #243528;
+  --forest: #2f4634;
+  --moss: #253b2b;
+  --sage: #ddebe1;
+  --mint: #eaf4ec;
+  --cream: #f7f6ef;
+  --off: #fafaf3;
+  --muted: #6f7a70;
+  --line: rgba(47, 70, 52, 0.25);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background: var(--forest);
+  color: var(--cream);
+}
+
+@layer components {
+  .section {
+    padding-block: 4.5rem;
+  }
+
+  .container-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 1.25rem;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  .btn {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.35rem;
+    padding-inline: 1.75rem;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    transition: transform 180ms ease, opacity 180ms ease, background 180ms ease;
+  }
+
+  .btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.92;
+  }
+
+  .icon-btn {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    border-radius: 999px;
+    border: 1px solid rgb(255 255 255 / 0.2);
+    color: currentColor;
+  }
+
+  .glass {
+    border: 1px solid rgb(255 255 255 / 0.22);
+    border-radius: 1.5rem;
+    background: rgb(255 255 255 / 0.18);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.16);
+    backdrop-filter: blur(18px);
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(34px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-soft {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-image {
+  from {
+    clip-path: inset(10% 0 0 0 round 1.25rem);
+    opacity: 0.72;
+    transform: scale(0.985) translateY(22px);
+  }
+
+  to {
+    clip-path: inset(0 0 0 0 round 1.25rem);
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-up,
+    .reveal-soft,
+    .reveal-image,
+    .stagger > * {
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 8% cover 34%;
+      will-change: opacity, transform;
+    }
+
+    .reveal-up {
+      animation-name: reveal-up;
+    }
+
+    .reveal-soft,
+    .stagger > * {
+      animation-name: reveal-soft;
+    }
+
+    .reveal-image {
+      animation-name: reveal-image;
+      transform-origin: center;
+      will-change: clip-path, opacity, transform;
+    }
+
+    .stagger > :nth-child(2) {
+      animation-range: entry 14% cover 40%;
+    }
+
+    .stagger > :nth-child(3) {
+      animation-range: entry 20% cover 46%;
+    }
+
+    .stagger > :nth-child(4) {
+      animation-range: entry 26% cover 52%;
+    }
+  }
+}
+
+@media (min-width: 768px) {
+  @layer components {
+    .section {
+      padding-block: 7rem;
+    }
+
+    .container-grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 2rem;
+      padding-inline: 2.5rem;
+    }
+  }
+}
+
+@media (min-width: 1280px) {
+  @layer components {
+    .section {
+      padding-block: 8.5rem;
+    }
+  }
 }
